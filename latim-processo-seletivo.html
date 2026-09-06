@@ -404,6 +404,46 @@ h1,h2,h3,h4{
 
 @media (max-width:900px){ .card-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:600px){ .card-grid{ grid-template-columns:1fr; } }
+.card-grid--3{ grid-template-columns:repeat(3,1fr); }
+@media (max-width:900px){ .card-grid--3{ grid-template-columns:1fr; } }
+
+/* ---------- tripé acadêmico ---------- */
+.tripod-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+.tripod-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:var(--radius-m);
+  padding:32px 28px;
+}
+.tripod-card .icon{
+  width:46px; height:46px;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:50%;
+  background:rgba(255,255,255,.08);
+  color:var(--clay-300);
+  margin-bottom:18px;
+}
+.tripod-card .icon svg{ width:22px; height:22px; }
+.tripod-card h4{ color:var(--white); font-size:1.15rem; }
+.tripod-card p{ margin-top:8px; color:#c9c6de; font-size:0.94rem; }
+.tripod-list{ margin-top:18px; display:flex; flex-direction:column; gap:9px; }
+.tripod-list li{
+  font-size:0.86rem;
+  color:#b9b6d4;
+  padding-left:18px;
+  position:relative;
+}
+.tripod-list li::before{
+  content:"";
+  position:absolute; left:0; top:7px;
+  width:6px; height:6px; border-radius:50%;
+  background:var(--clay-500);
+}
+@media (max-width:900px){ .tripod-grid{ grid-template-columns:1fr; } }
 
 /* ---------- ensino ---------- */
 .teach-grid{
@@ -830,12 +870,10 @@ h1,h2,h3,h4{
     <ul class="nav-links">
       <li><a href="latim-inicio.html#inicio">Início</a></li>
       <li><a href="latim-sobre.html">Sobre</a></li>
-      <li><a href="latim-inicio.html#ensino">Ensino</a></li>
-      <li><a href="latim-inicio.html#pesquisa">Pesquisa</a></li>
+      <li><a href="latim-inicio.html#ensino">Tripé Acadêmico</a></li>
       <li><a href="latim-inicio.html#eventos">Eventos</a></li>
       <li><a href="latim-inicio.html#equipe">Equipe</a></li>
       <li><a href="latim-processo-seletivo.html" class="is-active">Processo Seletivo</a></li>
-      <li><a href="latim-inicio.html#conteudos">Conteúdos</a></li>
       <li><a href="latim-inicio.html#contato">Contato</a></li>
     </ul>
     <div class="nav-cta">
@@ -846,12 +884,10 @@ h1,h2,h3,h4{
   <div class="mobile-panel">
     <a href="latim-inicio.html#inicio">Início</a>
     <a href="latim-sobre.html">Sobre</a>
-    <a href="latim-inicio.html#ensino">Ensino</a>
-    <a href="latim-inicio.html#pesquisa">Pesquisa</a>
+    <a href="latim-inicio.html#ensino">Tripé Acadêmico</a>
     <a href="latim-inicio.html#eventos">Eventos</a>
     <a href="latim-inicio.html#equipe">Equipe</a>
     <a href="latim-processo-seletivo.html">Processo Seletivo</a>
-    <a href="latim-inicio.html#conteudos">Conteúdos</a>
     <a href="latim-inicio.html#contato">Contato</a>
     <a href="#inscricao" class="btn btn-primary">Faça parte</a>
   </div>
@@ -861,11 +897,11 @@ h1,h2,h3,h4{
 
   <section class="ps-hero">
     <div class="container">
-      <span class="ps-status ps-status--closed"><span class="blip"></span> Processo seletivo 2026.2 encerrado</span>
+      <span class="ps-status ps-status--closed"><span class="blip"></span> Edital 001/2026 · Resultado até 10/09/2026</span>
       <br>
       <span class="eyebrow">Processo seletivo</span>
       <h1>Quero fazer parte da Liga</h1>
-      <p>As inscrições para o ciclo 2026.2 já foram encerradas e as vagas preenchidas. Siga a LATIM no Instagram para não perder a abertura do próximo edital.</p>
+      <p>O I Processo Seletivo da LATIM (Edital 001/2026, ciclo 2026/2027) já teve inscrições, curso introdutório, prova teórica e entrevistas concluídos. O resultado final é divulgado até 10/09/2026, pelo Instagram oficial. Siga a Liga para não perder a próxima abertura.</p>
       <a href="https://www.instagram.com/latim.unima?stkn=MWIzdnA4emF5d243Yg==" target="_blank" rel="noopener" class="btn btn-primary mt-lg">Seguir no Instagram</a>
     </div>
   </section>
@@ -873,30 +909,30 @@ h1,h2,h3,h4{
   <section class="section">
     <div class="container">
       <div class="section-head reveal">
-        <span class="eyebrow">Edital 2026.2 · Encerrado</span>
-        <h2>Como foi o último processo</h2>
-        <p>Estas foram as informações do processo seletivo mais recente, mantidas aqui como referência. Os dados do próximo edital serão divulgados no Instagram da Liga.</p>
+        <span class="eyebrow">Edital 001/2026</span>
+        <h2>Números do I Processo Seletivo</h2>
+        <p>Informações oficiais do edital, mantidas aqui como referência. Dúvidas só são respondidas pelos canais oficiais: Instagram (@latim.unima) ou e-mail.</p>
       </div>
       <div class="info-grid">
         <div class="info-card reveal">
-          <span class="label">Vagas</span>
-          <strong class="big">30 vagas</strong>
-          <p>Preenchidas entre as diferentes áreas da saúde participantes da Liga.</p>
+          <span class="label">Vagas · Curso Introdutório</span>
+          <strong class="big">130 vagas</strong>
+          <p>Divididas em 3 lotes (15, 35 e 80 vagas), por ordem de inscrição e pagamento.</p>
+        </div>
+        <div class="info-card reveal">
+          <span class="label">Vagas · Membro efetivo</span>
+          <strong class="big">17 vagas</strong>
+          <p>12 para alunos da UNIMA/AFYA e 5 para alunos de outras instituições.</p>
         </div>
         <div class="info-card reveal">
           <span class="label">Período de inscrição</span>
-          <strong class="big">05 a 25 de outubro</strong>
-          <p>Inscrições realizadas exclusivamente pelo formulário on-line.</p>
+          <strong class="big">12 a 25 de agosto</strong>
+          <p>Exclusivamente pelo link divulgado no Instagram oficial da LATIM.</p>
         </div>
         <div class="info-card reveal">
-          <span class="label">Etapas</span>
-          <strong class="big">3 etapas</strong>
-          <p>Inscrição, prova teórica e entrevista com a diretoria.</p>
-        </div>
-        <div class="info-card reveal">
-          <span class="label">Resultado</span>
-          <strong class="big">15 de novembro</strong>
-          <p>Divulgado no Instagram e enviado por e-mail aos candidatos inscritos.</p>
+          <span class="label">Resultado final</span>
+          <strong class="big">Até 10/09/2026</strong>
+          <p>Divulgado pelo perfil oficial da LATIM no Instagram.</p>
         </div>
       </div>
     </div>
@@ -905,25 +941,29 @@ h1,h2,h3,h4{
   <section class="section section--dim">
     <div class="container">
       <div class="section-head reveal">
-        <span class="eyebrow">Cronograma</span>
-        <h2>Como funciona a seleção</h2>
+        <span class="eyebrow">Cronograma do edital</span>
+        <h2>Como funcionou a seleção</h2>
       </div>
       <div class="steps reveal">
         <div class="step-row">
           <span class="step-index">01</span>
-          <div><h4>Inscrição on-line</h4><p>Preenchimento do formulário com dados pessoais, curso e motivação.</p></div>
+          <div><h4>Inscrição on-line</h4><p>Formulário no Instagram oficial, com nome, WhatsApp, curso e comprovante de pagamento.</p></div>
         </div>
         <div class="step-row">
           <span class="step-index">02</span>
-          <div><h4>Prova teórica</h4><p>Avaliação de conhecimentos gerais em Terapia Intensiva e trabalho em equipe.</p></div>
+          <div><h4>Curso Introdutório</h4><p>25/08/2026, no Auditório da UNIMA/AFYA — base de conteúdo cobrada na prova teórica.</p></div>
         </div>
         <div class="step-row">
           <span class="step-index">03</span>
-          <div><h4>Entrevista</h4><p>Conversa com a diretoria sobre disponibilidade, interesse e perfil multidisciplinar.</p></div>
+          <div><h4>Prova teórica</h4><p>28/08/2026, em 3 turnos, 15 questões objetivas. Mínimo de 60% de acertos para avançar.</p></div>
         </div>
         <div class="step-row">
           <span class="step-index">04</span>
-          <div><h4>Resultado e integração</h4><p>Divulgação da lista de aprovados e início das atividades de ambientação.</p></div>
+          <div><h4>Entrevista individual</h4><p>05/09/2026, com dois membros da Diretoria — limitada a 40 candidatos mais bem classificados.</p></div>
+        </div>
+        <div class="step-row">
+          <span class="step-index">05</span>
+          <div><h4>Resultado final</h4><p>Divulgado até 10/09/2026 pelo Instagram oficial da LATIM.</p></div>
         </div>
       </div>
     </div>
@@ -935,20 +975,20 @@ h1,h2,h3,h4{
         <span class="eyebrow">Requisitos</span>
         <h2>Quem pode se inscrever</h2>
         <ul class="req-list mt-lg">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Estar regularmente matriculado em curso de graduação na área da saúde.</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Disponibilidade para participar de atividades semanais e eventos da Liga.</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Interesse genuíno por Terapia Intensiva e trabalho multidisciplinar.</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Compromisso com os valores acadêmicos e éticos da Liga.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Ser estudante universitário de um curso da área da saúde em instituição de ensino superior de Maceió - AL.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Ter disponibilidade mínima de 4 horas semanais para as atividades obrigatórias da Liga.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Seguir o perfil oficial da LATIM no Instagram e acompanhar os comunicados oficiais.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Cumprir todos os passos descritos na postagem oficial sobre as inscrições.</li>
         </ul>
       </div>
       <div class="mission-card reveal" id="inscricao">
         <h3>Fique de olho na próxima abertura</h3>
-        <p style="color:var(--ink-soft); font-size:0.96rem; margin-top:4px;">O processo seletivo 2026.2 já foi encerrado e as vagas foram preenchidas. Todo o próximo edital — datas, número de vagas e formulário de inscrição — é anunciado primeiro no Instagram da Liga.</p>
+        <p style="color:var(--ink-soft); font-size:0.96rem; margin-top:4px;">As inscrições do Edital 001/2026 já foram encerradas. O resultado final sai até 10/09/2026, e o próximo edital — com novas datas e vagas — será anunciado primeiro no Instagram da Liga.</p>
         <a href="https://www.instagram.com/latim.unima?stkn=MWIzdnA4emF5d243Yg==" target="_blank" rel="noopener" class="btn btn-instagram mt-lg" style="margin-top:24px;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
           Seguir @latim.unima
         </a>
-        <p style="color:var(--ink-faint); font-size:0.85rem; margin-top:20px;">Prefere e-mail? Escreva para <a href="mailto:latim.unima@gmail.com" style="color:var(--navy-800); font-weight:700;">latim.unima@gmail.com</a> e avisamos você quando o próximo edital abrir.</p>
+        <p style="color:var(--ink-faint); font-size:0.85rem; margin-top:20px;">Dúvidas sobre o processo seletivo: direct no Instagram oficial ou e-mail <a href="mailto:latim.unima@gmail.com" style="color:var(--navy-800); font-weight:700;">latim.unima@gmail.com</a> — únicos canais oficiais.</p>
       </div>
     </div>
   </section>
@@ -974,8 +1014,7 @@ h1,h2,h3,h4{
         <h5>Navegação</h5>
         <ul>
           <li><a href="latim-inicio.html#sobre">Sobre</a></li>
-          <li><a href="latim-inicio.html#ensino">Ensino</a></li>
-          <li><a href="latim-inicio.html#pesquisa">Pesquisa</a></li>
+          <li><a href="latim-inicio.html#ensino">Tripé Acadêmico</a></li>
           <li><a href="latim-inicio.html#eventos">Eventos</a></li>
         </ul>
       </div>
@@ -984,7 +1023,6 @@ h1,h2,h3,h4{
         <ul>
           <li><a href="latim-inicio.html#equipe">Equipe</a></li>
           <li><a href="latim-processo-seletivo.html">Processo Seletivo</a></li>
-          <li><a href="latim-inicio.html#conteudos">Conteúdos</a></li>
           <li><a href="latim-sobre.html">História da Liga</a></li>
         </ul>
       </div>

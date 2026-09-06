@@ -404,6 +404,46 @@ h1,h2,h3,h4{
 
 @media (max-width:900px){ .card-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:600px){ .card-grid{ grid-template-columns:1fr; } }
+.card-grid--3{ grid-template-columns:repeat(3,1fr); }
+@media (max-width:900px){ .card-grid--3{ grid-template-columns:1fr; } }
+
+/* ---------- tripé acadêmico ---------- */
+.tripod-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+.tripod-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:var(--radius-m);
+  padding:32px 28px;
+}
+.tripod-card .icon{
+  width:46px; height:46px;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:50%;
+  background:rgba(255,255,255,.08);
+  color:var(--clay-300);
+  margin-bottom:18px;
+}
+.tripod-card .icon svg{ width:22px; height:22px; }
+.tripod-card h4{ color:var(--white); font-size:1.15rem; }
+.tripod-card p{ margin-top:8px; color:#c9c6de; font-size:0.94rem; }
+.tripod-list{ margin-top:18px; display:flex; flex-direction:column; gap:9px; }
+.tripod-list li{
+  font-size:0.86rem;
+  color:#b9b6d4;
+  padding-left:18px;
+  position:relative;
+}
+.tripod-list li::before{
+  content:"";
+  position:absolute; left:0; top:7px;
+  width:6px; height:6px; border-radius:50%;
+  background:var(--clay-500);
+}
+@media (max-width:900px){ .tripod-grid{ grid-template-columns:1fr; } }
 
 /* ---------- ensino ---------- */
 .teach-grid{
@@ -830,12 +870,10 @@ h1,h2,h3,h4{
     <ul class="nav-links">
       <li><a href="latim-inicio.html#inicio">Início</a></li>
       <li><a href="latim-sobre.html" class="is-active">Sobre</a></li>
-      <li><a href="latim-inicio.html#ensino">Ensino</a></li>
-      <li><a href="latim-inicio.html#pesquisa">Pesquisa</a></li>
+      <li><a href="latim-inicio.html#ensino">Tripé Acadêmico</a></li>
       <li><a href="latim-inicio.html#eventos">Eventos</a></li>
       <li><a href="latim-inicio.html#equipe">Equipe</a></li>
       <li><a href="latim-processo-seletivo.html">Processo Seletivo</a></li>
-      <li><a href="latim-inicio.html#conteudos">Conteúdos</a></li>
       <li><a href="latim-inicio.html#contato">Contato</a></li>
     </ul>
     <div class="nav-cta">
@@ -846,12 +884,10 @@ h1,h2,h3,h4{
   <div class="mobile-panel">
     <a href="latim-inicio.html#inicio">Início</a>
     <a href="latim-sobre.html">Sobre</a>
-    <a href="latim-inicio.html#ensino">Ensino</a>
-    <a href="latim-inicio.html#pesquisa">Pesquisa</a>
+    <a href="latim-inicio.html#ensino">Tripé Acadêmico</a>
     <a href="latim-inicio.html#eventos">Eventos</a>
     <a href="latim-inicio.html#equipe">Equipe</a>
     <a href="latim-processo-seletivo.html">Processo Seletivo</a>
-    <a href="latim-inicio.html#conteudos">Conteúdos</a>
     <a href="latim-inicio.html#contato">Contato</a>
     <a href="latim-processo-seletivo.html" class="btn btn-primary">Faça parte</a>
   </div>
@@ -862,8 +898,8 @@ h1,h2,h3,h4{
   <section class="inline-page-hero">
     <div class="container">
       <span class="eyebrow">Sobre a Liga</span>
-      <h1>Uma trajetória construída por quem cuida do paciente crítico</h1>
-      <p>Conheça a história, a missão e os valores que orientam a LATIM desde sua fundação.</p>
+      <h1>Uma liga nova, construída com rigor acadêmico</h1>
+      <p>Conheça a história, a missão e os valores que orientam a LATIM desde sua fundação, em 2026.</p>
     </div>
   </section>
 
@@ -871,43 +907,96 @@ h1,h2,h3,h4{
     <div class="container about-grid">
       <div class="reveal">
         <span class="eyebrow">História</span>
-        <h2>Da sala de aula à beira-leito</h2>
-        <p>A LATIM nasceu do encontro entre estudantes de diferentes cursos da área da saúde que compartilhavam o interesse pelo cuidado ao paciente crítico. O que começou como um grupo informal de estudos se transformou em uma liga acadêmica estruturada, com atividades regulares de ensino, pesquisa e extensão.</p>
-        <p>Hoje, a Liga reúne participantes de mais de dez áreas da saúde, unidos pelo compromisso com a formação científica e com a prática colaborativa em Terapia Intensiva.</p>
+        <h2>Do estatuto ao primeiro ciclo</h2>
+        <p>A LATIM é uma entidade estudantil extensionista, científica e sem fins lucrativos, vinculada ao Curso de Medicina do Centro Universitário de Maceió (UNIMA/AFYA). Não havia, até então, nenhuma liga acadêmica de Medicina Intensiva na instituição — a LATIM nasceu para preencher essa lacuna, reunindo estudantes de diferentes cursos da área da saúde em torno do cuidado ao paciente crítico.</p>
+        <p>O primeiro ciclo da Liga (2026/2027) já está em andamento, com cronograma semanal de atividades e o primeiro processo seletivo de novos membros concluído.</p>
       </div>
       <div class="reveal">
         <div class="timeline">
           <div class="timeline-item">
-            <span class="year">2021</span>
-            <h4>Fundação da Liga</h4>
-            <p>Grupo inicial de estudantes de Medicina e Enfermagem cria os primeiros encontros de discussão de casos.</p>
+            <span class="year">Jun 2026</span>
+            <h4>Fundação institucional</h4>
+            <p>Estatuto e proposta da Liga assinados pela coordenação e pelo corpo docente da UNIMA/AFYA.</p>
           </div>
           <div class="timeline-item">
-            <span class="year">2022</span>
-            <h4>Abertura multidisciplinar</h4>
-            <p>Fisioterapia, Nutrição e Farmácia passam a integrar oficialmente as atividades da Liga.</p>
+            <span class="year">Ago 2026</span>
+            <h4>Edital 001/2026</h4>
+            <p>Lançamento do I Processo Seletivo: curso introdutório, prova teórica e entrevistas.</p>
           </div>
           <div class="timeline-item">
-            <span class="year">2023</span>
-            <h4>Primeiro projeto de pesquisa</h4>
-            <p>Início da primeira iniciação científica multiprofissional apoiada pela Liga.</p>
+            <span class="year">Set 2026</span>
+            <h4>Primeira turma de membros efetivos</h4>
+            <p>17 membros selecionados dão início ao ciclo 2026/2027 da LATIM.</p>
           </div>
           <div class="timeline-item">
-            <span class="year">2024</span>
-            <h4>Consolidação institucional</h4>
-            <p>Reconhecimento formal junto à instituição de ensino e ampliação da diretoria.</p>
-          </div>
-          <div class="timeline-item">
-            <span class="year">2026</span>
-            <h4>Novo ciclo</h4>
-            <p>Mais de 100 participantes ativos e uma agenda anual consolidada de ensino, pesquisa e eventos.</p>
+            <span class="year">2026–2027</span>
+            <h4>Ciclo em andamento</h4>
+            <p>Cronograma semanal de ensino, pesquisa e extensão, com encerramento previsto para maio de 2027.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- MULTIDISCIPLINARIDADE -->
   <section class="section section--dim">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Multidisciplinaridade</span>
+        <h2>Intensivismo se faz em equipe</h2>
+        <p>O cuidado ao paciente crítico exige conhecimento compartilhado, comunicação eficiente e integração entre diferentes áreas. Nossa Liga acredita na força da atuação multidisciplinar.</p>
+      </div>
+      <div class="card-grid">
+        <article class="discipline-card reveal">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.35-9.5-8.5C.7 8.9 2.6 5 6.2 5c2 0 3.3 1.1 3.8 2 0.5-0.9 1.8-2 3.8-2 3.6 0 5.5 3.9 3.7 7.5C19 16.65 12 21 12 21z"/></svg></span>
+          <h4>Medicina</h4>
+          <p>Diagnóstico, condução clínica e decisões terapêuticas no paciente grave.</p>
+        </article>
+        <article class="discipline-card reveal">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 3v4M16 3v4M4 9h16M6 9v9a3 3 0 003 3h6a3 3 0 003-3V9"/></svg></span>
+          <h4>Enfermagem</h4>
+          <p>Vigilância contínua, cuidado direto e segurança do paciente crítico.</p>
+        </article>
+        <article class="discipline-card reveal">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="6" r="3"/><path d="M6 21v-4a6 6 0 0112 0v4"/></svg></span>
+          <h4>Fisioterapia</h4>
+          <p>Reabilitação precoce, ventilação e prevenção do declínio funcional.</p>
+        </article>
+        <article class="discipline-card reveal">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 3h6l1 4H8l1-4z"/><path d="M8 7h8v6a4 4 0 01-8 0V7z"/><path d="M12 17v4"/></svg></span>
+          <h4>Farmácia</h4>
+          <p>Segurança medicamentosa, farmacocinética e ajuste terapêutico.</p>
+        </article>
+        <article class="discipline-card reveal">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12c2-6 14-6 16 0-2 6-14 6-16 0z"/><circle cx="12" cy="12" r="2.4"/></svg></span>
+          <h4>Nutrição</h4>
+          <p>Terapia nutricional adequada ao estado metabólico do paciente crítico.</p>
+        </article>
+        <article class="discipline-card reveal">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a5 5 0 015 5c0 3-2 4-2 7h-6c0-3-2-4-2-7a5 5 0 015-5z"/><path d="M10 19h4M11 22h2"/></svg></span>
+          <h4>Psicologia</h4>
+          <p>Acolhimento do paciente, da família e da equipe diante da gravidade.</p>
+        </article>
+        <article class="discipline-card reveal">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4v9a8 8 0 0016 0V4"/><path d="M9 4v3M15 4v3"/></svg></span>
+          <h4>Fonoaudiologia</h4>
+          <p>Avaliação da deglutição, comunicação e via aérea no paciente crítico.</p>
+        </article>
+        <article class="discipline-card reveal">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/></svg></span>
+          <h4>Terapia Ocupacional</h4>
+          <p>Estímulo funcional e cognitivo para a recuperação da autonomia.</p>
+        </article>
+        <article class="discipline-card reveal">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/></svg></span>
+          <h4>Outras áreas</h4>
+          <p>Odontologia, serviço social e demais especialidades da linha de cuidado.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
     <div class="container">
       <div class="section-head reveal">
         <span class="eyebrow">Missão, visão e valores</span>
@@ -916,27 +1005,27 @@ h1,h2,h3,h4{
       <div class="value-grid">
         <article class="value-card reveal">
           <h4>Missão</h4>
-          <p>Integrar estudantes e profissionais da saúde em torno do ensino, da pesquisa e da prática do cuidado ao paciente crítico.</p>
+          <p>Promover atividades de ensino, pesquisa e extensão na área de Medicina Intensiva, com enfoque multidisciplinar, contribuindo para a formação de profissionais capacitados para a assistência ao paciente crítico.</p>
         </article>
         <article class="value-card reveal">
           <h4>Visão</h4>
-          <p>Ser referência em formação multidisciplinar em Terapia Intensiva, reconhecida pela qualidade científica e pelo impacto na prática assistencial.</p>
+          <p>Estimular a produção científica e a conscientização comunitária sobre prevenção e reconhecimento precoce de situações de risco à vida.</p>
         </article>
         <article class="value-card reveal">
-          <h4>Valores</h4>
-          <p>Evidência científica, colaboração entre profissões, humanização do cuidado e compromisso com a formação contínua.</p>
+          <h4>Científico</h4>
+          <p>Atividades teórico-práticas em terapia intensiva: suporte avançado de vida, monitorização hemodinâmica, ventilação mecânica, sepse e choque, neurointensivismo.</p>
         </article>
         <article class="value-card reveal">
-          <h4>Objetivos</h4>
-          <p>Promover educação continuada, incentivar a produção científica e aproximar estudantes da prática real em UTI.</p>
+          <h4>Pesquisa</h4>
+          <p>Projetos de pesquisa clínica e epidemiológica, publicação de artigos científicos e participação em eventos acadêmicos.</p>
         </article>
         <article class="value-card reveal">
-          <h4>Público-alvo</h4>
-          <p>Estudantes e profissionais de Medicina, Enfermagem, Fisioterapia, Farmácia, Nutrição, Psicologia, Fonoaudiologia, Terapia Ocupacional e demais áreas da saúde.</p>
+          <h4>Extensão</h4>
+          <p>Promoção da saúde e educação comunitária, com atuação em parceria com serviços de saúde locais.</p>
         </article>
         <article class="value-card reveal">
           <h4>Estrutura organizacional</h4>
-          <p>Coordenação geral, professores orientadores, diretoria executiva e núcleos de ensino, pesquisa e eventos.</p>
+          <p>Professor orientador (tutor), dois co-tutores docentes e diretoria discente: presidência, vice-presidência, tesouraria, secretaria e diretorias de ensino, pesquisa, extensão e comunicação.</p>
         </article>
       </div>
     </div>
@@ -972,8 +1061,7 @@ h1,h2,h3,h4{
         <h5>Navegação</h5>
         <ul>
           <li><a href="latim-inicio.html#sobre">Sobre</a></li>
-          <li><a href="latim-inicio.html#ensino">Ensino</a></li>
-          <li><a href="latim-inicio.html#pesquisa">Pesquisa</a></li>
+          <li><a href="latim-inicio.html#ensino">Tripé Acadêmico</a></li>
           <li><a href="latim-inicio.html#eventos">Eventos</a></li>
         </ul>
       </div>
@@ -982,7 +1070,6 @@ h1,h2,h3,h4{
         <ul>
           <li><a href="latim-inicio.html#equipe">Equipe</a></li>
           <li><a href="latim-processo-seletivo.html">Processo Seletivo</a></li>
-          <li><a href="latim-inicio.html#conteudos">Conteúdos</a></li>
           <li><a href="latim-sobre.html">História da Liga</a></li>
         </ul>
       </div>
