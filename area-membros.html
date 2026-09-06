@@ -996,6 +996,22 @@ h1,h2,h3,h4{
     </div>
   </section>
 
+  <section class="section section--dim" id="name-capture" hidden>
+    <div class="container" style="max-width:480px;">
+      <div class="mission-card">
+        <h3>Como podemos te chamar?</h3>
+        <p style="color:var(--ink-soft); font-size:0.94rem; margin-top:6px;">É a primeira vez que você entra por aqui — conta seu nome pra gente saudar você certinho da próxima vez.</p>
+        <form id="name-form" style="margin-top:20px;">
+          <div class="field">
+            <label for="name-input">Nome</label>
+            <input type="text" id="name-input" required placeholder="Seu nome completo">
+          </div>
+          <button type="submit" class="btn btn-primary login-submit">Salvar</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="auth-checking">
     <div class="container text-center" style="max-width:480px;">
       <p style="color:var(--ink-soft);">Verificando seu acesso...</p>
@@ -1028,16 +1044,35 @@ try {
 
 const checkingEl = document.getElementById('auth-checking');
 const contentEl = document.getElementById('member-content');
+const nameCaptureEl = document.getElementById('name-capture');
 const emailEl = document.getElementById('welcome-email');
+const titleEl = document.getElementById('welcome-title');
+
+function firstName(fullName) {
+  return fullName.trim().split(' ')[0];
+}
+
+function showWelcome(user) {
+  checkingEl.hidden = true;
+  if (user.displayName) {
+    titleEl.textContent = 'Bem-vindo(a) de volta, ' + firstName(user.displayName) + '!';
+    emailEl.textContent = user.email;
+    contentEl.hidden = false;
+    nameCaptureEl.hidden = true;
+  } else {
+    titleEl.textContent = 'Bem-vindo(a) à LATIM';
+    emailEl.textContent = user.email;
+    nameCaptureEl.hidden = false;
+    contentEl.hidden = true;
+  }
+}
 
 if (!firebaseReady) {
   checkingEl.innerHTML = '<div class="container text-center" style="max-width:480px;"><p style="color:var(--ink-soft);">A área de membros ainda está sendo configurada. Volte em breve.</p></div>';
 } else {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      checkingEl.hidden = true;
-      contentEl.hidden = false;
-      emailEl.textContent = user.email;
+      showWelcome(user);
     } else {
       window.location.href = 'index.html';
     }
@@ -1046,6 +1081,16 @@ if (!firebaseReady) {
   document.getElementById('btn-logout').addEventListener('click', () => {
     firebase.auth().signOut().then(() => {
       window.location.href = 'index.html';
+    });
+  });
+
+  document.getElementById('name-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('name-input').value.trim();
+    if (!name) return;
+    const user = firebase.auth().currentUser;
+    user.updateProfile({ displayName: name }).then(() => {
+      showWelcome(user);
     });
   });
 }
