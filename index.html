@@ -866,6 +866,61 @@ h1,h2,h3,h4{
 @media (max-width:900px){ .footer-grid{ grid-template-columns:1fr 1fr; } }
 @media (max-width:560px){ .footer-grid{ grid-template-columns:1fr; } }
 
+/* ---------- login modal ---------- */
+.modal-overlay{
+  position:fixed; inset:0;
+  background:rgba(18,16,58,.6);
+  backdrop-filter:blur(4px);
+  display:flex; align-items:center; justify-content:center;
+  z-index:2000;
+  padding:20px;
+}
+.modal-card{
+  position:relative;
+  background:var(--white);
+  border-radius:var(--radius-l);
+  padding:40px;
+  max-width:420px;
+  width:100%;
+  box-shadow:0 40px 90px -30px rgba(10,8,40,.5);
+}
+.modal-card h3{ font-size:1.5rem; margin-top:10px; }
+.modal-sub{ color:var(--ink-soft); font-size:0.92rem; margin-top:8px; margin-bottom:24px; }
+.modal-close{
+  position:absolute; top:18px; right:18px;
+  width:34px; height:34px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:var(--white);
+  font-size:1.3rem;
+  line-height:1;
+  color:var(--ink-soft);
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .2s var(--ease), color .2s var(--ease);
+}
+.modal-close:hover{ background:var(--navy-050); color:var(--navy-900); }
+.login-submit{ width:100%; justify-content:center; margin-top:6px; }
+.login-error{
+  font-size:0.85rem;
+  color:#b3261e;
+  background:#fdecea;
+  border-radius:var(--radius-s);
+  padding:10px 14px;
+  margin-bottom:16px;
+}
+.login-forgot{
+  display:block;
+  margin:18px auto 0;
+  background:none; border:none;
+  font-size:0.85rem;
+  color:var(--ink-faint);
+  text-decoration:underline;
+  cursor:pointer;
+}
+.login-forgot:hover{ color:var(--navy-900); }
+@media (max-width:480px){ .modal-card{ padding:30px 24px; } }
+
 /* ---------- utility ---------- */
 .text-center{ text-align:center; margin-left:auto; margin-right:auto; }
 .mt-lg{ margin-top:64px; }
@@ -906,6 +961,7 @@ h1,h2,h3,h4{
       <li><a href="#contato">Contato</a></li>
     </ul>
     <div class="nav-cta">
+      <button class="btn btn-outline btn-sm" id="btn-open-login" type="button">Entrar</button>
       <a href="latim-processo-seletivo.html" class="btn btn-outline btn-sm btn-outline-desktop">Faça parte</a>
       <button class="nav-toggle" aria-label="Abrir menu"><span></span></button>
     </div>
@@ -918,6 +974,7 @@ h1,h2,h3,h4{
     <a href="#equipe">Equipe</a>
     <a href="latim-processo-seletivo.html">Processo Seletivo</a>
     <a href="#contato">Contato</a>
+    <button class="btn btn-outline" id="btn-open-login-mobile" type="button">Entrar</button>
     <a href="latim-processo-seletivo.html" class="btn btn-primary">Faça parte</a>
   </div>
 </header>
@@ -1308,6 +1365,166 @@ h1,h2,h3,h4{
     </div>
   </div>
 </footer>
+
+
+<!-- LOGIN MODAL — ÁREA DE MEMBROS -->
+<div class="modal-overlay" id="login-modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="login-title">
+    <button class="modal-close" id="login-close" type="button" aria-label="Fechar">&times;</button>
+    <span class="eyebrow">Área de membros</span>
+    <h3 id="login-title">Entrar na LATIM</h3>
+    <p class="modal-sub">Acesso restrito aos membros efetivos da Liga.</p>
+    <form id="login-form" novalidate>
+      <div class="field">
+        <label for="login-email">E-mail</label>
+        <input type="email" id="login-email" required placeholder="seuemail@exemplo.com" autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="login-password">Senha</label>
+        <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <p class="login-error" id="login-error" hidden></p>
+      <button type="submit" class="btn btn-primary login-submit" id="login-submit">Entrar</button>
+    </form>
+    <button class="login-forgot" id="login-forgot" type="button">Esqueci minha senha</button>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script>
+// =====================================================================
+// LATIM — Autenticação da Área de Membros (Firebase Authentication)
+// =====================================================================
+//
+// COMO CONFIGURAR (uma única vez):
+// 1. Acesse https://console.firebase.google.com e crie um projeto gratuito.
+// 2. Dentro do projeto, clique no ícone "</>" para adicionar um app Web.
+// 3. Copie o objeto "firebaseConfig" que aparecer e cole substituindo
+//    o objeto abaixo (as chaves de exemplo NÃO funcionam).
+// 4. No menu lateral, vá em "Authentication" > "Sign-in method" e
+//    ative o provedor "E-mail/senha".
+// 5. Ainda em "Authentication", aba "Users", clique em "Add user" e
+//    cadastre o e-mail e senha de cada membro que poderá entrar.
+// 6. Pronto — pode subir este arquivo para o GitHub. Não é preciso
+//    esconder essas chaves: elas identificam o projeto, não dão acesso
+//    a dados por si só (a segurança vem das regras do Firebase).
+// =====================================================================
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCt5IBw_KEIHt-S39zIa_vnLHt5-H94Skk",
+  authDomain: "latim-caf28.firebaseapp.com",
+  projectId: "latim-caf28",
+  storageBucket: "latim-caf28.firebasestorage.app",
+  messagingSenderId: "1042354036272",
+  appId: "1:1042354036272:web:a1d96d6d27d45aab2a97f5"
+};
+
+// Evita erro caso o Firebase ainda não tenha sido configurado.
+let firebaseReady = false;
+try {
+  if (firebaseConfig.apiKey !== "COLE_AQUI_A_SUA_API_KEY") {
+    firebase.initializeApp(firebaseConfig);
+    firebaseReady = true;
+  }
+} catch (e) {
+  console.warn("Firebase não inicializado:", e);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('login-modal');
+  const openBtns = [document.getElementById('btn-open-login'), document.getElementById('btn-open-login-mobile')].filter(Boolean);
+  const closeBtn = document.getElementById('login-close');
+  const form = document.getElementById('login-form');
+  const errorEl = document.getElementById('login-error');
+  const submitBtn = document.getElementById('login-submit');
+  const forgotBtn = document.getElementById('login-forgot');
+  const emailInput = document.getElementById('login-email');
+
+  if (!modal || !form) return;
+
+  const openModal = () => {
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => emailInput && emailInput.focus(), 50);
+  };
+  const closeModal = () => {
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    errorEl.hidden = true;
+  };
+
+  openBtns.forEach(btn => btn.addEventListener('click', openModal));
+  closeBtn && closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    errorEl.hidden = true;
+
+    if (!firebaseReady) {
+      errorEl.textContent = 'Área de membros em configuração. Volte em breve.';
+      errorEl.hidden = false;
+      return;
+    }
+
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Entrando...';
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(() => {
+        window.location.href = 'area-membros.html';
+      })
+      .catch((error) => {
+        let msg = 'Não foi possível entrar. Tente novamente.';
+        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+          msg = 'E-mail ou senha incorretos.';
+        } else if (error.code === 'auth/invalid-email') {
+          msg = 'Digite um e-mail válido.';
+        } else if (error.code === 'auth/too-many-requests') {
+          msg = 'Muitas tentativas. Aguarde um momento e tente de novo.';
+        }
+        errorEl.textContent = msg;
+        errorEl.hidden = false;
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Entrar';
+      });
+  });
+
+  forgotBtn && forgotBtn.addEventListener('click', () => {
+    const email = emailInput.value.trim();
+    if (!firebaseReady) {
+      errorEl.textContent = 'Área de membros em configuração. Volte em breve.';
+      errorEl.hidden = false;
+      return;
+    }
+    if (!email) {
+      errorEl.textContent = 'Digite seu e-mail acima e clique em "Esqueci minha senha" novamente.';
+      errorEl.hidden = false;
+      emailInput.focus();
+      return;
+    }
+    firebase.auth().sendPasswordResetEmail(email)
+      .then(() => {
+        errorEl.style.color = '#2f7a4d';
+        errorEl.textContent = 'Enviamos um link de redefinição de senha para o seu e-mail.';
+        errorEl.hidden = false;
+      })
+      .catch(() => {
+        errorEl.style.color = '';
+        errorEl.textContent = 'Não encontramos esse e-mail cadastrado.';
+        errorEl.hidden = false;
+      });
+  });
+});
+
+</script>
 
 <script>
 // LATIM — comportamento compartilhado do site
