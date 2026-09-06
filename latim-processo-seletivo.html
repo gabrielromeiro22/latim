@@ -868,13 +868,15 @@ h1,h2,h3,h4{
 
 /* ---------- login modal ---------- */
 .modal-overlay{
+  display:none;
   position:fixed; inset:0;
   background:rgba(18,16,58,.6);
   backdrop-filter:blur(4px);
-  display:flex; align-items:center; justify-content:center;
+  align-items:center; justify-content:center;
   z-index:2000;
   padding:20px;
 }
+.modal-overlay:not([hidden]){ display:flex; }
 .modal-card{
   position:relative;
   background:var(--white);
@@ -919,6 +921,22 @@ h1,h2,h3,h4{
   cursor:pointer;
 }
 .login-forgot:hover{ color:var(--navy-900); }
+.login-switch{
+  text-align:center;
+  margin-top:16px;
+  font-size:0.86rem;
+  color:var(--ink-soft);
+}
+.login-switch button{
+  background:none; border:none;
+  color:var(--clay-600);
+  font-weight:700;
+  cursor:pointer;
+  padding:0;
+  font-size:0.86rem;
+  text-decoration:underline;
+}
+.login-switch button:hover{ color:var(--clay-700); }
 @media (max-width:480px){ .modal-card{ padding:30px 24px; } }
 
 /* ---------- utility ---------- */
@@ -1135,8 +1153,12 @@ h1,h2,h3,h4{
     <button class="modal-close" id="login-close" type="button" aria-label="Fechar">&times;</button>
     <span class="eyebrow">Área de membros</span>
     <h3 id="login-title">Entrar na LATIM</h3>
-    <p class="modal-sub">Acesso restrito aos membros efetivos da Liga.</p>
+    <p class="modal-sub" id="login-subtitle">Acesso restrito aos membros efetivos da Liga.</p>
     <form id="login-form" novalidate>
+      <div class="field" id="field-name" hidden>
+        <label for="login-name">Nome completo</label>
+        <input type="text" id="login-name" placeholder="Seu nome completo" autocomplete="name">
+      </div>
       <div class="field">
         <label for="login-email">E-mail</label>
         <input type="email" id="login-email" required placeholder="seuemail@exemplo.com" autocomplete="username">
@@ -1149,6 +1171,10 @@ h1,h2,h3,h4{
       <button type="submit" class="btn btn-primary login-submit" id="login-submit">Entrar</button>
     </form>
     <button class="login-forgot" id="login-forgot" type="button">Esqueci minha senha</button>
+    <p class="login-switch">
+      <span id="switch-to-signup-wrap">Ainda não tem conta? <button type="button" id="switch-to-signup">Cadastre-se</button></span>
+      <span id="switch-to-login-wrap" hidden>Já tem conta? <button type="button" id="switch-to-login">Entrar</button></span>
+    </p>
   </div>
 </div>
 
@@ -1166,11 +1192,12 @@ h1,h2,h3,h4{
 //    o objeto abaixo (as chaves de exemplo NÃO funcionam).
 // 4. No menu lateral, vá em "Authentication" > "Sign-in method" e
 //    ative o provedor "E-mail/senha".
-// 5. Ainda em "Authentication", aba "Users", clique em "Add user" e
-//    cadastre o e-mail e senha de cada membro que poderá entrar.
-// 6. Pronto — pode subir este arquivo para o GitHub. Não é preciso
-//    esconder essas chaves: elas identificam o projeto, não dão acesso
-//    a dados por si só (a segurança vem das regras do Firebase).
+// 5. Pronto — membros podem se cadastrar sozinhos pelo botão "Cadastre-se"
+//    no modal de login, ou você pode criar contas manualmente em
+//    "Authentication" > "Users" > "Add user".
+// 6. Pode subir este arquivo para o GitHub. Não é preciso esconder essas
+//    chaves: elas identificam o projeto, não dão acesso a dados por si só
+//    (a segurança vem das regras do Firebase).
 // =====================================================================
 
 const firebaseConfig = {
@@ -1202,10 +1229,48 @@ document.addEventListener('DOMContentLoaded', () => {
   const submitBtn = document.getElementById('login-submit');
   const forgotBtn = document.getElementById('login-forgot');
   const emailInput = document.getElementById('login-email');
+  const passwordInput = document.getElementById('login-password');
+  const nameInput = document.getElementById('login-name');
+  const nameField = document.getElementById('field-name');
+  const titleEl = document.getElementById('login-title');
+  const subtitleEl = document.getElementById('login-subtitle');
+  const toSignupWrap = document.getElementById('switch-to-signup-wrap');
+  const toLoginWrap = document.getElementById('switch-to-login-wrap');
+  const toSignupBtn = document.getElementById('switch-to-signup');
+  const toLoginBtn = document.getElementById('switch-to-login');
 
   if (!modal || !form) return;
 
+  let mode = 'login'; // ou 'signup'
+
+  const resetError = () => { errorEl.hidden = true; errorEl.style.color = ''; };
+
+  const setMode = (newMode) => {
+    mode = newMode;
+    resetError();
+    if (mode === 'signup') {
+      titleEl.textContent = 'Criar conta na LATIM';
+      subtitleEl.textContent = 'Cadastro para membros efetivos da Liga.';
+      nameField.hidden = false;
+      nameInput.required = true;
+      submitBtn.textContent = 'Criar conta';
+      toSignupWrap.hidden = true;
+      toLoginWrap.hidden = false;
+      forgotBtn.hidden = true;
+    } else {
+      titleEl.textContent = 'Entrar na LATIM';
+      subtitleEl.textContent = 'Acesso restrito aos membros efetivos da Liga.';
+      nameField.hidden = true;
+      nameInput.required = false;
+      submitBtn.textContent = 'Entrar';
+      toSignupWrap.hidden = false;
+      toLoginWrap.hidden = true;
+      forgotBtn.hidden = false;
+    }
+  };
+
   const openModal = () => {
+    setMode('login');
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
     setTimeout(() => emailInput && emailInput.focus(), 50);
@@ -1213,17 +1278,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeModal = () => {
     modal.hidden = true;
     document.body.style.overflow = '';
-    errorEl.hidden = true;
+    form.reset();
+    resetError();
   };
 
   openBtns.forEach(btn => btn.addEventListener('click', openModal));
   closeBtn && closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
+  toSignupBtn && toSignupBtn.addEventListener('click', () => setMode('signup'));
+  toLoginBtn && toLoginBtn.addEventListener('click', () => setMode('login'));
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    errorEl.hidden = true;
+    resetError();
 
     if (!firebaseReady) {
       errorEl.textContent = 'Área de membros em configuração. Volte em breve.';
@@ -1231,32 +1299,48 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const email = document.getElementById('login-email').value.trim();
-    const password = document.getElementById('login-password').value;
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    const name = nameInput.value.trim();
 
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Entrando...';
+    submitBtn.textContent = mode === 'signup' ? 'Criando conta...' : 'Entrando...';
 
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(() => {
-        window.location.href = 'area-membros.html';
-      })
-      .catch((error) => {
-        let msg = 'Não foi possível entrar. Tente novamente.';
-        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-          msg = 'E-mail ou senha incorretos.';
-        } else if (error.code === 'auth/invalid-email') {
-          msg = 'Digite um e-mail válido.';
-        } else if (error.code === 'auth/too-many-requests') {
-          msg = 'Muitas tentativas. Aguarde um momento e tente de novo.';
-        }
-        errorEl.textContent = msg;
-        errorEl.hidden = false;
-      })
-      .finally(() => {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Entrar';
-      });
+    const finish = () => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = mode === 'signup' ? 'Criar conta' : 'Entrar';
+    };
+
+    if (mode === 'signup') {
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((cred) => cred.user.updateProfile({ displayName: name }))
+        .then(() => { window.location.href = 'area-membros.html'; })
+        .catch((error) => {
+          let msg = 'Não foi possível criar sua conta. Tente novamente.';
+          if (error.code === 'auth/email-already-in-use') msg = 'Este e-mail já tem uma conta. Tente entrar.';
+          else if (error.code === 'auth/invalid-email') msg = 'Digite um e-mail válido.';
+          else if (error.code === 'auth/weak-password') msg = 'A senha precisa ter pelo menos 6 caracteres.';
+          errorEl.textContent = msg;
+          errorEl.hidden = false;
+          finish();
+        });
+    } else {
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(() => { window.location.href = 'area-membros.html'; })
+        .catch((error) => {
+          let msg = 'Não foi possível entrar. Tente novamente.';
+          if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+            msg = 'E-mail ou senha incorretos.';
+          } else if (error.code === 'auth/invalid-email') {
+            msg = 'Digite um e-mail válido.';
+          } else if (error.code === 'auth/too-many-requests') {
+            msg = 'Muitas tentativas. Aguarde um momento e tente de novo.';
+          }
+          errorEl.textContent = msg;
+          errorEl.hidden = false;
+          finish();
+        });
+    }
   });
 
   forgotBtn && forgotBtn.addEventListener('click', () => {
