@@ -323,12 +323,19 @@ h1,h2,h3,h4{
   color:#a8a4c4;
 }
 
-.hero-visual{ position:relative; height:440px; }
-.hero-visual svg{ width:100%; height:100%; }
+.hero-visual{
+  position:relative;
+  height:440px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 .hero-logo-ring{
   position:relative;
-  width:100%; height:100%;
+  width:min(320px, 70%);
+  aspect-ratio:1/1;
   display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
 }
 .hero-logo-ring::before,
 .hero-logo-ring::after{
@@ -337,22 +344,64 @@ h1,h2,h3,h4{
   border-radius:50%;
   border:1px solid rgba(255,255,255,.14);
 }
-.hero-logo-ring::before{ width:88%; height:88%; }
-.hero-logo-ring::after{ width:68%; height:68%; border-color:rgba(255,255,255,.2); }
+.hero-logo-ring::before{ width:132%; height:132%; }
+.hero-logo-ring::after{ width:162%; height:162%; border-color:rgba(255,255,255,.08); }
 .hero-logo-img{
   position:relative;
-  width:46%;
-  max-width:230px;
+  width:100%;
+  height:100%;
+  object-fit:cover;
   border-radius:50%;
   box-shadow:0 30px 70px -20px rgba(0,0,0,.55);
   animation:hero-logo-in 1s var(--ease) both;
+}
+.hero-floating-badge{
+  position:absolute;
+  bottom:-8%;
+  left:-14%;
+  background:var(--white);
+  border-radius:999px;
+  padding:12px 20px 12px 16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  box-shadow:0 20px 45px -18px rgba(0,0,0,.5);
+  animation:hero-badge-in 1s var(--ease) .3s both;
+}
+.hero-floating-badge strong{
+  display:block;
+  font-family:var(--display);
+  font-size:0.9rem;
+  color:var(--navy-900);
+  line-height:1.2;
+}
+.hero-floating-badge span{
+  display:block;
+  font-size:0.72rem;
+  color:var(--ink-faint);
+  font-weight:600;
+}
+.dot-live{
+  width:9px; height:9px; border-radius:50%;
+  background:#3fb27f;
+  flex-shrink:0;
+  box-shadow:0 0 0 4px rgba(63,178,127,.2);
+  animation:blip 1.8s infinite;
 }
 @keyframes hero-logo-in{
   from{ opacity:0; transform:scale(.92); }
   to{ opacity:1; transform:scale(1); }
 }
+@keyframes hero-badge-in{
+  from{ opacity:0; transform:translateY(10px); }
+  to{ opacity:1; transform:translateY(0); }
+}
 @media (prefers-reduced-motion: reduce){
-  .hero-logo-img{ animation:none; }
+  .hero-logo-img, .hero-floating-badge{ animation:none; }
+}
+@media (max-width:560px){
+  .hero-floating-badge{ left:2%; bottom:-4%; padding:10px 16px 10px 14px; }
+  .hero-floating-badge strong{ font-size:0.8rem; }
 }
 
 /* ---------- about / sobre ---------- */
@@ -867,6 +916,80 @@ h1,h2,h3,h4{
 @media (max-width:900px){ .footer-grid{ grid-template-columns:1fr 1fr; } }
 @media (max-width:560px){ .footer-grid{ grid-template-columns:1fr; } }
 
+/* ---------- depoimentos ---------- */
+.testimonial-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+.testimonial-card{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:var(--radius-m);
+  padding:32px 28px;
+  position:relative;
+}
+.testimonial-card .quote-mark{
+  font-family:var(--display);
+  font-size:3rem;
+  color:var(--clay-300);
+  line-height:1;
+  display:block;
+  margin-bottom:6px;
+}
+.testimonial-card p{
+  color:var(--ink-soft);
+  font-size:0.96rem;
+  font-style:italic;
+}
+.testimonial-author{ margin-top:20px; }
+.testimonial-author strong{ display:block; color:var(--navy-900); font-size:0.95rem; }
+.testimonial-author span{ font-size:0.82rem; color:var(--ink-faint); }
+.testimonial-note{
+  text-align:center;
+  margin-top:24px;
+  font-size:0.8rem;
+  color:var(--ink-faint);
+  font-style:italic;
+}
+@media (max-width:900px){ .testimonial-grid{ grid-template-columns:1fr; } }
+
+/* ---------- FAQ ---------- */
+.faq-list{ display:flex; flex-direction:column; gap:12px; }
+.faq-item{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:var(--radius-m);
+  padding:4px 24px;
+}
+.faq-item summary{
+  padding:18px 0;
+  cursor:pointer;
+  font-weight:700;
+  color:var(--navy-900);
+  list-style:none;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+}
+.faq-item summary::-webkit-details-marker{ display:none; }
+.faq-item summary::after{
+  content:"+";
+  font-size:1.3rem;
+  color:var(--clay-600);
+  flex-shrink:0;
+  transition:transform .25s var(--ease);
+}
+.faq-item[open] summary::after{ transform:rotate(45deg); }
+.faq-item p{
+  padding-bottom:20px;
+  color:var(--ink-soft);
+  font-size:0.94rem;
+  margin:0;
+}
+.faq-item p a{ color:var(--clay-600); font-weight:700; }
+
 /* ---------- login modal ---------- */
 .modal-overlay{
   display:none;
@@ -976,7 +1099,7 @@ h1,h2,h3,h4{
       <li><a href="index.html#ensino">Tripé Acadêmico</a></li>
       <li><a href="index.html#eventos">Eventos</a></li>
       <li><a href="index.html#equipe">Equipe</a></li>
-      <li><a href="latim-processo-seletivo.html" class="is-active">Processo Seletivo</a></li>
+      <li><a href="processo-seletivo.html" class="is-active">Processo Seletivo</a></li>
       <li><a href="index.html#contato">Contato</a></li>
     </ul>
     <div class="nav-cta">
@@ -991,7 +1114,7 @@ h1,h2,h3,h4{
     <a href="index.html#ensino">Tripé Acadêmico</a>
     <a href="index.html#eventos">Eventos</a>
     <a href="index.html#equipe">Equipe</a>
-    <a href="latim-processo-seletivo.html">Processo Seletivo</a>
+    <a href="processo-seletivo.html">Processo Seletivo</a>
     <a href="index.html#contato">Contato</a>
     <button class="btn btn-outline" id="btn-open-login-mobile" type="button">Entrar</button>
     <a href="#inscricao" class="btn btn-primary">Faça parte</a>
@@ -1074,7 +1197,80 @@ h1,h2,h3,h4{
     </div>
   </section>
 
+  <!-- DEPOIMENTOS -->
+  <section class="section section--dim">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Quem já passou por aqui</span>
+        <h2>O que dizem os membros</h2>
+      </div>
+      <div class="testimonial-grid">
+        <article class="testimonial-card reveal">
+          <span class="quote-mark">"</span>
+          <p>O curso introdutório já valeu a pena antes mesmo do resultado sair. Aprendi mais sobre sepse em uma noite do que em semanas de aula regular.</p>
+          <div class="testimonial-author">
+            <strong>Ana Beatriz</strong>
+            <span>Estudante de Medicina</span>
+          </div>
+        </article>
+        <article class="testimonial-card reveal">
+          <span class="quote-mark">"</span>
+          <p>Fui aprovada mesmo sendo de outra faculdade. A LATIM realmente entrega o que promete: prática multidisciplinar de verdade, não só teoria.</p>
+          <div class="testimonial-author">
+            <strong>Camila Rocha</strong>
+            <span>Estudante de Fisioterapia</span>
+          </div>
+        </article>
+        <article class="testimonial-card reveal">
+          <span class="quote-mark">"</span>
+          <p>A prova teórica pareceu difícil na hora, mas o conteúdo do curso introdutório cobre tudo. É só prestar atenção nas aulas e ir bem.</p>
+          <div class="testimonial-author">
+            <strong>Rafael Souza</strong>
+            <span>Membro efetivo, ciclo 2026/2027</span>
+          </div>
+        </article>
+      </div>
+      <p class="testimonial-note">Depoimentos ilustrativos — em breve, relatos reais de membros da LATIM.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
   <section class="section">
+    <div class="container" style="max-width:800px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Dúvidas frequentes</span>
+        <h2>Perguntas sobre o processo seletivo</h2>
+      </div>
+      <div class="faq-list reveal">
+        <details class="faq-item">
+          <summary>Preciso ser aluno de Medicina para participar?</summary>
+          <p>Não. A LATIM é multidisciplinar e aberta a estudantes de qualquer curso da área da saúde em instituição de ensino superior de Maceió - AL.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Alunos de outras faculdades podem se inscrever?</summary>
+          <p>Sim. Das 17 vagas de membro efetivo por ciclo, 12 são reservadas para alunos da UNIMA/AFYA e 5 para alunos de outras instituições.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Participar do Curso Introdutório garante a vaga de membro?</summary>
+          <p>Não. A inscrição e participação no Curso Introdutório são etapas obrigatórias, mas classificatórias — ao final de todas as etapas (prova teórica e entrevista), apenas 17 candidatos são selecionados como membros efetivos.</p>
+        </details>
+        <details class="faq-item">
+          <summary>A LATIM emite certificado?</summary>
+          <p>A participação no Curso Introdutório é certificada com 12 horas de atividades extracurriculares pela Coordenação de Extensão da AFYA, exclusivamente para candidatos regularmente matriculados na UNIMA/AFYA.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Quanto tempo dura o vínculo como membro efetivo?</summary>
+          <p>O vínculo tem validade de 1 ano, podendo ser renovado mediante avaliação da diretoria e do professor orientador, desde que cumpridas frequência e participação mínimas.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Onde acompanho as datas do próximo processo seletivo?</summary>
+          <p>Exclusivamente pelo Instagram oficial <a href="https://www.instagram.com/latim.unima?stkn=MWIzdnA4emF5d243Yg==" target="_blank" rel="noopener">@latim.unima</a> — é o único canal usado para anúncios, editais e resultados.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dim">
     <div class="container about-grid">
       <div class="reveal">
         <span class="eyebrow">Requisitos</span>
@@ -1127,7 +1323,7 @@ h1,h2,h3,h4{
         <h5>Liga</h5>
         <ul>
           <li><a href="index.html#equipe">Equipe</a></li>
-          <li><a href="latim-processo-seletivo.html">Processo Seletivo</a></li>
+          <li><a href="processo-seletivo.html">Processo Seletivo</a></li>
           <li><a href="latim-sobre.html">História da Liga</a></li>
         </ul>
       </div>
