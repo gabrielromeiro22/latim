@@ -323,12 +323,19 @@ h1,h2,h3,h4{
   color:#a8a4c4;
 }
 
-.hero-visual{ position:relative; height:440px; }
-.hero-visual svg{ width:100%; height:100%; }
+.hero-visual{
+  position:relative;
+  height:440px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 .hero-logo-ring{
   position:relative;
-  width:100%; height:100%;
+  width:min(320px, 70%);
+  aspect-ratio:1/1;
   display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
 }
 .hero-logo-ring::before,
 .hero-logo-ring::after{
@@ -337,22 +344,64 @@ h1,h2,h3,h4{
   border-radius:50%;
   border:1px solid rgba(255,255,255,.14);
 }
-.hero-logo-ring::before{ width:88%; height:88%; }
-.hero-logo-ring::after{ width:68%; height:68%; border-color:rgba(255,255,255,.2); }
+.hero-logo-ring::before{ width:132%; height:132%; }
+.hero-logo-ring::after{ width:162%; height:162%; border-color:rgba(255,255,255,.08); }
 .hero-logo-img{
   position:relative;
-  width:46%;
-  max-width:230px;
+  width:100%;
+  height:100%;
+  object-fit:cover;
   border-radius:50%;
   box-shadow:0 30px 70px -20px rgba(0,0,0,.55);
   animation:hero-logo-in 1s var(--ease) both;
+}
+.hero-floating-badge{
+  position:absolute;
+  bottom:-8%;
+  left:-14%;
+  background:var(--white);
+  border-radius:999px;
+  padding:12px 20px 12px 16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  box-shadow:0 20px 45px -18px rgba(0,0,0,.5);
+  animation:hero-badge-in 1s var(--ease) .3s both;
+}
+.hero-floating-badge strong{
+  display:block;
+  font-family:var(--display);
+  font-size:0.9rem;
+  color:var(--navy-900);
+  line-height:1.2;
+}
+.hero-floating-badge span{
+  display:block;
+  font-size:0.72rem;
+  color:var(--ink-faint);
+  font-weight:600;
+}
+.dot-live{
+  width:9px; height:9px; border-radius:50%;
+  background:#3fb27f;
+  flex-shrink:0;
+  box-shadow:0 0 0 4px rgba(63,178,127,.2);
+  animation:blip 1.8s infinite;
 }
 @keyframes hero-logo-in{
   from{ opacity:0; transform:scale(.92); }
   to{ opacity:1; transform:scale(1); }
 }
+@keyframes hero-badge-in{
+  from{ opacity:0; transform:translateY(10px); }
+  to{ opacity:1; transform:translateY(0); }
+}
 @media (prefers-reduced-motion: reduce){
-  .hero-logo-img{ animation:none; }
+  .hero-logo-img, .hero-floating-badge{ animation:none; }
+}
+@media (max-width:560px){
+  .hero-floating-badge{ left:2%; bottom:-4%; padding:10px 16px 10px 14px; }
+  .hero-floating-badge strong{ font-size:0.8rem; }
 }
 
 /* ---------- about / sobre ---------- */
@@ -867,6 +916,136 @@ h1,h2,h3,h4{
 @media (max-width:900px){ .footer-grid{ grid-template-columns:1fr 1fr; } }
 @media (max-width:560px){ .footer-grid{ grid-template-columns:1fr; } }
 
+/* ---------- depoimentos ---------- */
+.testimonial-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+.testimonial-card{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:var(--radius-m);
+  padding:32px 28px;
+  position:relative;
+}
+.testimonial-card .quote-mark{
+  font-family:var(--display);
+  font-size:3rem;
+  color:var(--clay-300);
+  line-height:1;
+  display:block;
+  margin-bottom:6px;
+}
+.testimonial-card p{
+  color:var(--ink-soft);
+  font-size:0.96rem;
+  font-style:italic;
+}
+.testimonial-author{ margin-top:20px; }
+.testimonial-author strong{ display:block; color:var(--navy-900); font-size:0.95rem; }
+.testimonial-author span{ font-size:0.82rem; color:var(--ink-faint); }
+.testimonial-note{
+  text-align:center;
+  margin-top:24px;
+  font-size:0.8rem;
+  color:var(--ink-faint);
+  font-style:italic;
+}
+@media (max-width:900px){ .testimonial-grid{ grid-template-columns:1fr; } }
+
+/* ---------- FAQ ---------- */
+.faq-list{ display:flex; flex-direction:column; gap:12px; }
+.faq-item{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:var(--radius-m);
+  padding:4px 24px;
+}
+.faq-item summary{
+  padding:18px 0;
+  cursor:pointer;
+  font-weight:700;
+  color:var(--navy-900);
+  list-style:none;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+}
+.faq-item summary::-webkit-details-marker{ display:none; }
+.faq-item summary::after{
+  content:"+";
+  font-size:1.3rem;
+  color:var(--clay-600);
+  flex-shrink:0;
+  transition:transform .25s var(--ease);
+}
+.faq-item[open] summary::after{ transform:rotate(45deg); }
+.faq-item p{
+  padding-bottom:20px;
+  color:var(--ink-soft);
+  font-size:0.94rem;
+  margin:0;
+}
+.faq-item p a{ color:var(--clay-600); font-weight:700; }
+
+/* ---------- painel de membros ---------- */
+.dash-form{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:var(--radius-m);
+  padding:26px;
+  margin-bottom:28px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.dash-form .btn{ align-self:flex-start; margin-top:6px; }
+.dash-list{ display:flex; flex-direction:column; gap:14px; }
+.dash-empty{ color:var(--ink-faint); font-size:0.92rem; }
+.dash-card{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:var(--radius-m);
+  padding:22px 24px;
+}
+.dash-card h4{ font-size:1.02rem; color:var(--navy-900); }
+.dash-card p{ margin-top:6px; color:var(--ink-soft); font-size:0.92rem; white-space:pre-line; }
+.dash-meta{ display:block; margin-top:12px; font-size:0.76rem; color:var(--ink-faint); }
+.dash-card--row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+@media (max-width:560px){ .dash-card--row{ flex-direction:column; align-items:flex-start; } }
+
+.progress-summary{ display:flex; flex-direction:column; gap:10px; }
+.progress-bar-track{
+  width:100%; height:10px;
+  background:var(--navy-050);
+  border-radius:999px;
+  overflow:hidden;
+}
+.progress-bar-fill{
+  height:100%;
+  width:0%;
+  background:var(--clay-600);
+  border-radius:999px;
+  transition:width .4s var(--ease);
+}
+#progress-label{ font-size:0.86rem; font-weight:700; color:var(--navy-900); }
+
+.session-check{ cursor:pointer; gap:14px; }
+.session-check input[type="checkbox"]{
+  width:18px; height:18px;
+  accent-color:var(--clay-600);
+  flex-shrink:0;
+  cursor:pointer;
+}
+.session-check .topic{ flex:none; }
+
 /* ---------- login modal ---------- */
 .modal-overlay{
   display:none;
@@ -962,7 +1141,7 @@ h1,h2,h3,h4{
 </style>
 </head>
 <body>
-<a href="#main" class="skip-link">Pular para o conteúdo</a>
+<a href="#dash-main" class="skip-link">Pular para o conteúdo</a>
 
 <header class="site-header is-scrolled">
   <nav class="nav">
@@ -971,10 +1150,11 @@ h1,h2,h3,h4{
       <span class="brand-text"><strong>LATIM</strong><span>Liga de Terapia Intensiva</span></span>
     </a>
     <ul class="nav-links">
-      <li><a href="index.html#inicio">Início</a></li>
-      <li><a href="index.html#sobre">Sobre</a></li>
-      <li><a href="index.html#eventos">Eventos</a></li>
-      <li><a href="index.html#equipe">Equipe</a></li>
+      <li><a href="#mural">Mural</a></li>
+      <li><a href="#progresso">Progresso</a></li>
+      <li><a href="#materiais">Materiais</a></li>
+      <li><a href="#casos">Casos clínicos</a></li>
+      <li><a href="#perfil">Perfil</a></li>
     </ul>
     <div class="nav-cta">
       <button class="btn btn-outline btn-sm" id="btn-logout" type="button">Sair</button>
@@ -982,8 +1162,8 @@ h1,h2,h3,h4{
   </nav>
 </header>
 
-<main id="main">
-  <section class="inline-page-hero" style="padding-top:170px;">
+<main id="dash-main">
+  <section class="inline-page-hero" style="padding-top:170px; padding-bottom:50px;">
     <div class="container">
       <span class="eyebrow">Área de membros</span>
       <h1 id="welcome-title">Bem-vindo(a) de volta</h1>
@@ -991,30 +1171,7 @@ h1,h2,h3,h4{
     </div>
   </section>
 
-  <section class="section" id="member-content" hidden>
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Em construção</span>
-        <h2>Sua área pessoal está a caminho</h2>
-        <p>Em breve, aqui você vai poder acompanhar frequência, materiais de estudo, certificados e comunicados internos da Liga.</p>
-      </div>
-      <div class="value-grid">
-        <article class="value-card reveal">
-          <h4>Frequência</h4>
-          <p>Acompanhamento das suas presenças no cronograma semanal.</p>
-        </article>
-        <article class="value-card reveal">
-          <h4>Materiais</h4>
-          <p>Slides, artigos e gravações das atividades da Liga.</p>
-        </article>
-        <article class="value-card reveal">
-          <h4>Certificados</h4>
-          <p>Emissão de certificados conforme carga horária cumprida.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
+  <!-- Primeiro acesso: pedir nome -->
   <section class="section section--dim" id="name-capture" hidden>
     <div class="container" style="max-width:480px;">
       <div class="mission-card">
@@ -1031,6 +1188,147 @@ h1,h2,h3,h4{
     </div>
   </section>
 
+  <div id="dashboard" hidden>
+
+    <!-- MURAL DE AVISOS -->
+    <section class="section" id="mural">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Comunicados</span>
+          <h2>Mural de avisos</h2>
+          <p>Recados da diretoria para todos os membros da Liga.</p>
+        </div>
+
+        <form id="announcement-form" class="dash-form" hidden>
+          <div class="field">
+            <label for="announcement-title">Título</label>
+            <input type="text" id="announcement-title" required placeholder="Título do aviso">
+          </div>
+          <div class="field">
+            <label for="announcement-body">Mensagem</label>
+            <textarea id="announcement-body" rows="3" required placeholder="Escreva o comunicado"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Publicar aviso</button>
+        </form>
+
+        <div id="announcement-list" class="dash-list">
+          <p class="dash-empty">Carregando avisos...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRESSO NO CICLO -->
+    <section class="section section--dim" id="progresso">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Frequência</span>
+          <h2>Seu progresso no ciclo 2026/2027</h2>
+          <p>Marque as atividades do cronograma conforme for participando.</p>
+        </div>
+
+        <div class="progress-summary">
+          <div class="progress-bar-track"><div class="progress-bar-fill" id="progress-fill"></div></div>
+          <span id="progress-label">0 de 36 atividades concluídas</span>
+        </div>
+
+        <div id="progress-modules" class="cronograma-list" style="margin-top:32px;"></div>
+      </div>
+    </section>
+
+    <!-- MATERIAIS DE AULA -->
+    <section class="section" id="materiais">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Biblioteca interna</span>
+          <h2>Materiais de aula</h2>
+          <p>Slides, PDFs e links das atividades do cronograma.</p>
+        </div>
+
+        <form id="material-form" class="dash-form" hidden>
+          <div class="field-row">
+            <div class="field">
+              <label for="material-title">Título</label>
+              <input type="text" id="material-title" required placeholder="Ex.: Slides — Sepse e choque séptico">
+            </div>
+            <div class="field">
+              <label for="material-link">Link</label>
+              <input type="url" id="material-link" required placeholder="https://...">
+            </div>
+          </div>
+          <div class="field">
+            <label for="material-desc">Descrição (opcional)</label>
+            <input type="text" id="material-desc" placeholder="Ex.: Aula teórica de 06/11">
+          </div>
+          <button type="submit" class="btn btn-primary">Adicionar material</button>
+        </form>
+
+        <div id="material-list" class="dash-list">
+          <p class="dash-empty">Carregando materiais...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASOS CLÍNICOS -->
+    <section class="section section--dim" id="casos">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Discussão interna</span>
+          <h2>Repositório de casos clínicos</h2>
+          <p>Casos compartilhados por membros, visíveis só para quem está logado.</p>
+        </div>
+
+        <form id="case-form" class="dash-form">
+          <div class="field">
+            <label for="case-title">Título do caso</label>
+            <input type="text" id="case-title" required placeholder="Ex.: Choque distributivo refratário">
+          </div>
+          <div class="field">
+            <label for="case-desc">Descrição</label>
+            <textarea id="case-desc" rows="4" required placeholder="Resumo do caso, conduta, dúvidas para discussão..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Compartilhar caso</button>
+        </form>
+
+        <div id="case-list" class="dash-list">
+          <p class="dash-empty">Carregando casos...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PERFIL -->
+    <section class="section" id="perfil">
+      <div class="container" style="max-width:560px;">
+        <div class="section-head reveal">
+          <span class="eyebrow">Sua conta</span>
+          <h2>Perfil</h2>
+        </div>
+        <form id="profile-form" class="mission-card">
+          <div class="field">
+            <label for="profile-name">Nome completo</label>
+            <input type="text" id="profile-name" required>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="profile-course">Curso</label>
+              <input type="text" id="profile-course" placeholder="Ex.: Medicina">
+            </div>
+            <div class="field">
+              <label for="profile-period">Período</label>
+              <input type="text" id="profile-period" placeholder="Ex.: 6º período">
+            </div>
+          </div>
+          <div class="field">
+            <label for="profile-role">Função na Liga</label>
+            <input type="text" id="profile-role" placeholder="Ex.: Membro, Diretor(a) de Ensino...">
+          </div>
+          <p class="login-error" id="profile-saved" hidden style="color:#2f7a4d; background:#eaf6ee;">Perfil salvo!</p>
+          <button type="submit" class="btn btn-primary">Salvar perfil</button>
+        </form>
+      </div>
+    </section>
+
+  </div>
+
   <section class="section" id="auth-checking">
     <div class="container text-center" style="max-width:480px;">
       <p style="color:var(--ink-soft);">Verificando seu acesso...</p>
@@ -1040,8 +1338,88 @@ h1,h2,h3,h4{
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-// Repete a mesma configuração de assets/js/auth.js — mantenha as duas iguais.
+// =====================================================================
+// LATIM — Painel da Área de Membros (Firebase Auth + Firestore)
+// =====================================================================
+//
+// CONFIGURAÇÃO NECESSÁRIA (além do login, que já deve estar funcionando):
+// 1. No console do Firebase, menu lateral, clique em "Firestore Database"
+//    e depois em "Criar banco de dados". Escolha o modo de produção e
+//    uma localização (qualquer uma do Brasil, ex.: southamerica-east1).
+// 2. Na aba "Regras" do Firestore, cole as regras do arquivo
+//    firestore.rules (mandado junto) e clique em "Publicar".
+// 3. Substitua a lista DIRETORIA_EMAILS abaixo pelos e-mails reais de
+//    quem pode postar avisos e materiais (a mesma lista precisa estar
+//    nas regras do Firestore — veja o arquivo firestore.rules).
+// =====================================================================
+
+// E-mails com permissão para postar avisos e materiais (diretoria/tutores).
+// IMPORTANTE: atualize também em firestore.rules quando mudar esta lista.
+const DIRETORIA_EMAILS = [
+  "latim.unima@gmail.com"
+];
+
+// Cronograma oficial do ciclo 2026/2027 (mesmas datas da home).
+const CRONOGRAMA = [
+  { modulo: "Medicina Baseada em Evidências", periodo: "Set 2026", sessoes: [
+    { date: "2026-09-04", tipo: "Teórica" },
+    { date: "2026-09-11", tipo: "Estudo dirigido" },
+    { date: "2026-09-18", tipo: "Estudo dirigido" },
+    { date: "2026-09-25", tipo: "Prática" },
+  ]},
+  { modulo: "Deterioração do paciente crítico", periodo: "Out 2026", sessoes: [
+    { date: "2026-10-02", tipo: "Teórica" },
+    { date: "2026-10-09", tipo: "Estudo dirigido" },
+    { date: "2026-10-16", tipo: "Prática" },
+    { date: "2026-10-23", tipo: "Fechamento remoto" },
+  ]},
+  { modulo: "Sepse e choque séptico", periodo: "Nov 2026", sessoes: [
+    { date: "2026-11-06", tipo: "Teórica" },
+    { date: "2026-11-13", tipo: "Estudo dirigido" },
+    { date: "2026-11-20", tipo: "Prática" },
+    { date: "2026-11-27", tipo: "Fechamento remoto" },
+  ]},
+  { modulo: "Acesso venoso central", periodo: "Dez 2026", sessoes: [
+    { date: "2026-12-04", tipo: "Teórica" },
+    { date: "2026-12-11", tipo: "Estudo dirigido" },
+    { date: "2026-12-18", tipo: "Prática" },
+    { date: "2026-12-25", tipo: "Fechamento remoto" },
+  ]},
+  { modulo: "Via aérea: IOT, TOT e máscara laríngea", periodo: "Jan 2027", sessoes: [
+    { date: "2027-01-08", tipo: "Teórica" },
+    { date: "2027-01-15", tipo: "Estudo dirigido" },
+    { date: "2027-01-22", tipo: "Prática" },
+    { date: "2027-01-29", tipo: "Fechamento remoto" },
+  ]},
+  { modulo: "Acesso intraósseo", periodo: "Fev 2027", sessoes: [
+    { date: "2027-02-05", tipo: "Teórica" },
+    { date: "2027-02-12", tipo: "Estudo dirigido" },
+    { date: "2027-02-19", tipo: "Prática" },
+    { date: "2027-02-26", tipo: "Fechamento remoto" },
+  ]},
+  { modulo: "Drogas vasoativas", periodo: "Mar 2027", sessoes: [
+    { date: "2027-03-05", tipo: "Teórica" },
+    { date: "2027-03-12", tipo: "Estudo dirigido" },
+    { date: "2027-03-19", tipo: "Prática" },
+    { date: "2027-03-26", tipo: "Fechamento remoto" },
+  ]},
+  { modulo: "Ventilação mecânica", periodo: "Abr 2027", sessoes: [
+    { date: "2027-04-02", tipo: "Teórica" },
+    { date: "2027-04-09", tipo: "Estudo dirigido" },
+    { date: "2027-04-16", tipo: "Prática" },
+    { date: "2027-04-23", tipo: "Fechamento remoto" },
+  ]},
+  { modulo: "Protocolo de morte encefálica", periodo: "Mai 2027", sessoes: [
+    { date: "2027-05-07", tipo: "Teórica" },
+    { date: "2027-05-14", tipo: "Estudo dirigido" },
+    { date: "2027-05-21", tipo: "Prática" },
+    { date: "2027-05-28", tipo: "Fechamento remoto" },
+  ]},
+];
+const TOTAL_ATIVIDADES = CRONOGRAMA.reduce((sum, m) => sum + m.sessoes.length, 0);
+
 const firebaseConfig = {
   apiKey: "AIzaSyCt5IBw_KEIHt-S39zIa_vnLHt5-H94Skk",
   authDomain: "latim-caf28.firebaseapp.com",
@@ -1052,38 +1430,287 @@ const firebaseConfig = {
 };
 
 let firebaseReady = false;
+let db = null;
 try {
   if (firebaseConfig.apiKey !== "COLE_AQUI_A_SUA_API_KEY") {
     firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
     firebaseReady = true;
   }
 } catch (e) {
   console.warn("Firebase não inicializado:", e);
 }
 
+function firstName(fullName) {
+  return fullName.trim().split(' ')[0];
+}
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+function timeAgo(date) {
+  if (!date) return '';
+  return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
 const checkingEl = document.getElementById('auth-checking');
-const contentEl = document.getElementById('member-content');
+const dashboardEl = document.getElementById('dashboard');
 const nameCaptureEl = document.getElementById('name-capture');
 const emailEl = document.getElementById('welcome-email');
 const titleEl = document.getElementById('welcome-title');
 
-function firstName(fullName) {
-  return fullName.trim().split(' ')[0];
-}
+let currentUser = null;
+let isDiretoria = false;
 
 function showWelcome(user) {
+  currentUser = user;
+  isDiretoria = DIRETORIA_EMAILS.includes((user.email || '').toLowerCase());
   checkingEl.hidden = true;
+
   if (user.displayName) {
     titleEl.textContent = 'Bem-vindo(a) de volta, ' + firstName(user.displayName) + '!';
-    emailEl.textContent = 'Área de membros em desenvolvimento.';
-    contentEl.hidden = false;
+    emailEl.textContent = isDiretoria ? 'Acesso de diretoria' : 'Membro da LATIM';
+    dashboardEl.hidden = false;
     nameCaptureEl.hidden = true;
+    initDashboard();
   } else {
     titleEl.textContent = 'Bem-vindo(a) à LATIM';
-    emailEl.textContent = 'Área de membros em desenvolvimento.';
+    emailEl.textContent = 'Complete seu cadastro para continuar.';
     nameCaptureEl.hidden = false;
-    contentEl.hidden = true;
+    dashboardEl.hidden = true;
   }
+}
+
+// ---------------------------------------------------------------------
+// MURAL DE AVISOS
+// ---------------------------------------------------------------------
+function initMural() {
+  const form = document.getElementById('announcement-form');
+  const list = document.getElementById('announcement-list');
+  if (isDiretoria) form.hidden = false;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const title = document.getElementById('announcement-title').value.trim();
+    const body = document.getElementById('announcement-body').value.trim();
+    if (!title || !body) return;
+    db.collection('announcements').add({
+      title, body,
+      authorName: currentUser.displayName || currentUser.email,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => form.reset());
+  });
+
+  db.collection('announcements').orderBy('createdAt', 'desc').limit(20)
+    .onSnapshot((snap) => {
+      if (snap.empty) {
+        list.innerHTML = '<p class="dash-empty">Nenhum aviso publicado ainda.</p>';
+        return;
+      }
+      list.innerHTML = snap.docs.map(doc => {
+        const d = doc.data();
+        const date = d.createdAt ? d.createdAt.toDate() : null;
+        return `<article class="dash-card">
+          <h4>${escapeHtml(d.title)}</h4>
+          <p>${escapeHtml(d.body)}</p>
+          <span class="dash-meta">${escapeHtml(d.authorName)} · ${timeAgo(date)}</span>
+        </article>`;
+      }).join('');
+    }, (err) => {
+      list.innerHTML = '<p class="dash-empty">Não foi possível carregar os avisos. Confira as regras do Firestore.</p>';
+      console.warn(err);
+    });
+}
+
+// ---------------------------------------------------------------------
+// PROGRESSO NO CICLO
+// ---------------------------------------------------------------------
+function initProgresso() {
+  const container = document.getElementById('progress-modules');
+  const fillEl = document.getElementById('progress-fill');
+  const labelEl = document.getElementById('progress-label');
+
+  container.innerHTML = CRONOGRAMA.map((mod, mi) => `
+    <details class="cronograma-item" data-mod="${mi}">
+      <summary><span>${escapeHtml(mod.modulo)}</span><span class="period">${escapeHtml(mod.periodo)}</span></summary>
+      <div class="sessions">
+        ${mod.sessoes.map(s => {
+          const [y, m, d] = s.date.split('-');
+          return `<label class="session-row session-check">
+            <input type="checkbox" class="attendance-check" data-date="${s.date}">
+            <span class="date">${d}/${m}</span>
+            <span class="topic">${escapeHtml(s.tipo)}</span>
+          </label>`;
+        }).join('')}
+      </div>
+    </details>
+  `).join('');
+
+  const docRef = db.collection('attendance').doc(currentUser.uid);
+
+  function updateProgressUI(records) {
+    const done = Object.values(records || {}).filter(Boolean).length;
+    const pct = Math.round((done / TOTAL_ATIVIDADES) * 100);
+    fillEl.style.width = pct + '%';
+    labelEl.textContent = done + ' de ' + TOTAL_ATIVIDADES + ' atividades concluídas';
+    container.querySelectorAll('.attendance-check').forEach(cb => {
+      cb.checked = !!(records && records[cb.dataset.date]);
+    });
+  }
+
+  docRef.get().then((doc) => {
+    updateProgressUI(doc.exists ? doc.data().records : {});
+  }).catch((err) => console.warn(err));
+
+  container.addEventListener('change', (e) => {
+    if (!e.target.classList.contains('attendance-check')) return;
+    const date = e.target.dataset.date;
+    const checked = e.target.checked;
+    docRef.set({ records: { [date]: checked } }, { merge: true })
+      .then(() => docRef.get())
+      .then((doc) => updateProgressUI(doc.data().records))
+      .catch((err) => console.warn(err));
+  });
+}
+
+// ---------------------------------------------------------------------
+// MATERIAIS DE AULA
+// ---------------------------------------------------------------------
+function initMateriais() {
+  const form = document.getElementById('material-form');
+  const list = document.getElementById('material-list');
+  if (isDiretoria) form.hidden = false;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const title = document.getElementById('material-title').value.trim();
+    const url = document.getElementById('material-link').value.trim();
+    const desc = document.getElementById('material-desc').value.trim();
+    if (!title || !url) return;
+    db.collection('materials').add({
+      title, url, desc,
+      authorName: currentUser.displayName || currentUser.email,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => form.reset());
+  });
+
+  db.collection('materials').orderBy('createdAt', 'desc').limit(30)
+    .onSnapshot((snap) => {
+      if (snap.empty) {
+        list.innerHTML = '<p class="dash-empty">Nenhum material publicado ainda.</p>';
+        return;
+      }
+      list.innerHTML = snap.docs.map(doc => {
+        const d = doc.data();
+        return `<article class="dash-card dash-card--row">
+          <div>
+            <h4>${escapeHtml(d.title)}</h4>
+            ${d.desc ? `<p>${escapeHtml(d.desc)}</p>` : ''}
+          </div>
+          <a href="${escapeHtml(d.url)}" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Abrir</a>
+        </article>`;
+      }).join('');
+    }, (err) => {
+      list.innerHTML = '<p class="dash-empty">Não foi possível carregar os materiais. Confira as regras do Firestore.</p>';
+      console.warn(err);
+    });
+}
+
+// ---------------------------------------------------------------------
+// CASOS CLÍNICOS
+// ---------------------------------------------------------------------
+function initCasos() {
+  const form = document.getElementById('case-form');
+  const list = document.getElementById('case-list');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const title = document.getElementById('case-title').value.trim();
+    const desc = document.getElementById('case-desc').value.trim();
+    if (!title || !desc) return;
+    db.collection('cases').add({
+      title, desc,
+      authorName: currentUser.displayName || currentUser.email,
+      authorEmail: currentUser.email,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => form.reset());
+  });
+
+  db.collection('cases').orderBy('createdAt', 'desc').limit(30)
+    .onSnapshot((snap) => {
+      if (snap.empty) {
+        list.innerHTML = '<p class="dash-empty">Nenhum caso compartilhado ainda.</p>';
+        return;
+      }
+      list.innerHTML = snap.docs.map(doc => {
+        const d = doc.data();
+        const date = d.createdAt ? d.createdAt.toDate() : null;
+        return `<article class="dash-card">
+          <h4>${escapeHtml(d.title)}</h4>
+          <p>${escapeHtml(d.desc)}</p>
+          <span class="dash-meta">${escapeHtml(d.authorName)} · ${timeAgo(date)}</span>
+        </article>`;
+      }).join('');
+    }, (err) => {
+      list.innerHTML = '<p class="dash-empty">Não foi possível carregar os casos. Confira as regras do Firestore.</p>';
+      console.warn(err);
+    });
+}
+
+// ---------------------------------------------------------------------
+// PERFIL
+// ---------------------------------------------------------------------
+function initPerfil() {
+  const form = document.getElementById('profile-form');
+  const savedMsg = document.getElementById('profile-saved');
+  const nameInput = document.getElementById('profile-name');
+  const courseInput = document.getElementById('profile-course');
+  const periodInput = document.getElementById('profile-period');
+  const roleInput = document.getElementById('profile-role');
+
+  nameInput.value = currentUser.displayName || '';
+
+  db.collection('profiles').doc(currentUser.uid).get().then((doc) => {
+    if (doc.exists) {
+      const d = doc.data();
+      courseInput.value = d.course || '';
+      periodInput.value = d.period || '';
+      roleInput.value = d.role || '';
+    }
+  }).catch((err) => console.warn(err));
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = nameInput.value.trim();
+    savedMsg.hidden = true;
+
+    const tasks = [];
+    if (name && name !== currentUser.displayName) {
+      tasks.push(currentUser.updateProfile({ displayName: name }));
+    }
+    tasks.push(db.collection('profiles').doc(currentUser.uid).set({
+      name,
+      course: courseInput.value.trim(),
+      period: periodInput.value.trim(),
+      role: roleInput.value.trim(),
+      email: currentUser.email,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true }));
+
+    Promise.all(tasks).then(() => {
+      savedMsg.hidden = false;
+      titleEl.textContent = 'Bem-vindo(a) de volta, ' + firstName(name || currentUser.email) + '!';
+    }).catch((err) => console.warn(err));
+  });
+}
+
+function initDashboard() {
+  initMural();
+  initProgresso();
+  initMateriais();
+  initCasos();
+  initPerfil();
 }
 
 if (!firebaseReady) {
@@ -1113,6 +1740,7 @@ if (!firebaseReady) {
     });
   });
 }
+
 </script>
 </body>
 </html>
